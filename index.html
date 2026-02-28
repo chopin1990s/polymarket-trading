@@ -97,6 +97,51 @@
             color: #666;
             font-size: 0.9em;
         }
+        
+        /* 折叠展开样式 */
+        .archive-toggle {
+            background: #252540;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            transition: background 0.3s;
+        }
+        .archive-toggle:hover { background: #2d2d4a; }
+        .archive-toggle::after {
+            content: '▼';
+            font-size: 0.8em;
+            transition: transform 0.3s;
+        }
+        .archive-toggle.active::after { transform: rotate(180deg); }
+        
+        .archive-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .archive-section.expanded { max-height: 2000px; }
+        
+        .archive-item {
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #666;
+        }
+        .archive-date { color: #888; font-size: 0.9em; }
+        
+        .latest-badge {
+            background: #00d9ff;
+            color: #1a1a2e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -108,7 +153,7 @@
             <p><strong>📚 研究方式：</strong>持续学习 + 记录判断 + 定期验证</p>
         </div>
 
-        <h2>📈 今日市场分析 (2026.2.28)</h2>
+        <h2>📈 今日分析 <span class="latest-badge">最新</span> (2026.2.28)</h2>
         
         <div class="trade">
             <h3>BTC 年内能否回升至 7.5 万美元？</h3>
@@ -134,6 +179,18 @@
             </ul>
             <p><strong>策略：</strong>等待概率 &gt; 80% 后做多</p>
             <p><strong>目标：</strong>0.50 | <strong>止损：</strong>0.85</p>
+        </div>
+
+        <div class="trade">
+            <h3>ETH 3月价格预测</h3>
+            <p><strong>当前数据：</strong></p>
+            <ul>
+                <li>&lt; $1,600: 2%</li>
+                <li>$1,600-1,700: 3%</li>
+                <li>$1,700-1,800: 5%</li>
+                <li>$1,800-1,900: 14%</li>
+            </ul>
+            <p><strong>分析：</strong>ETH 波动性高于 BTC，可关注短期高频机会</p>
         </div>
 
         <h2>📋 待验证交易</h2>
@@ -191,19 +248,6 @@
             </ul>
         </div>
 
-        <h2>📊 ETH 预测分析 (2026.2.28)</h2>
-        <div class="trade">
-            <h3>ETH 3月价格预测</h3>
-            <p><strong>当前数据：</strong></p>
-            <ul>
-                <li>&lt; $1,600: 2%</li>
-                <li>$1,600-1,700: 3%</li>
-                <li>$1,700-1,800: 5%</li>
-                <li>$1,800-1,900: 14%</li>
-            </ul>
-            <p><strong>分析：</strong>ETH 波动性高于 BTC，可关注短期高频机会</p>
-        </div>
-
         <h2>📊 胜率统计</h2>
         <div>
             <div class="stat-card">
@@ -224,9 +268,37 @@
             </div>
         </div>
 
+        <!-- 历史归档 -->
+        <div class="archive-toggle" onclick="toggleArchive()">
+            <span>📁 查看历史分析归档</span>
+        </div>
+        
+        <div class="archive-section" id="archiveSection">
+            <div class="archive-item">
+                <div class="archive-date">2026年2月28日 18:10</div>
+                <p><strong>事件：</strong>BTC 跌破 5 万美元</p>
+                <p><strong>判断：</strong>72%概率处于高位，等待极端情况做多</p>
+            </div>
+            <div class="archive-item">
+                <div class="archive-date">2026年2月28日 18:01</div>
+                <p><strong>事件：</strong>BTC 年内达 7.5 万美元</p>
+                <p><strong>判断：</strong>83%概率过高，等待做空机会</p>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>🔄 更新于 2026-02-28 | 由 AI 助手自动维护</p>
+            <p>🔄 更新于 2026-02-28 18:01 | 由 AI 助手自动维护</p>
+            <p>🌐 <a href="https://github.com/chopin1990s/polymarket-trading" style="color: #00d9ff;">GitHub 仓库</a></p>
         </div>
     </div>
+
+    <script>
+        function toggleArchive() {
+            const section = document.getElementById('archiveSection');
+            const toggle = document.querySelector('.archive-toggle');
+            section.classList.toggle('expanded');
+            toggle.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
