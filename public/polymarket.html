@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymarket 模拟交易研究</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { 
+            color: #00d9ff; 
+            text-align: center;
+            padding: 30px 0;
+            font-size: 2em;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+        h2 { 
+            color: #ff6b6b; 
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        h3 { color: #ffd93d; margin: 20px 0 10px; }
+        h4 { color: #6bcb77; margin: 15px 0 10px; }
+        p { line-height: 1.8; margin: 10px 0; }
+        ul, ol { margin: 10px 0 10px 20px; }
+        li { margin: 5px 0; line-height: 1.6; }
+        .goal {
+            background: linear-gradient(135deg, #2d3436 0%, #1e272e 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid #00d9ff;
+        }
+        .goal p { color: #00d9ff; font-size: 1.1em; }
+        .strategy {
+            background: #252540;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .trade {
+            background: #1e1e30;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd93d;
+        }
+        .trade.long { border-left-color: #6bcb77; }
+        .trade.short { border-left-color: #ff6b6b; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: #1a1a2e;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th { background: #252540; color: #00d9ff; }
+        tr:hover { background: #252540; }
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin: 2px;
+        }
+        .tag-bull { background: rgba(107, 203, 119, 0.2); color: #6bcb77; }
+        .tag-bear { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+        .tag-neutral { background: rgba(255, 217, 61, 0.2); color: #ffd93d; }
+        .highlight { color: #00d9ff; font-weight: bold; }
+        .stat-card {
+            display: inline-block;
+            background: #252540;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin: 5px;
+            text-align: center;
+        }
+        .stat-value { font-size: 1.5em; color: #00d9ff; font-weight: bold; }
+        .stat-label { font-size: 0.85em; color: #888; }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Polymarket 模拟交易研究</h1>
+        
+        <div class="goal">
+            <p><strong>🎯 胜率目标：</strong> >50% | <strong>💰 目标：</strong>实现正向现金流</p>
+            <p><strong>📚 研究方式：</strong>持续学习 + 记录判断 + 定期验证</p>
+        </div>
+
+        <h2>📈 今日市场分析 (2026.2.28)</h2>
+        
+        <div class="trade">
+            <h3>BTC 年内能否回升至 7.5 万美元？</h3>
+            <p><span class="tag tag-bull">做空思路</span></p>
+            <p><strong>当前概率：</strong> <span class="highlight">83%</span> (过高)</p>
+            <ul>
+                <li>83% 处于高位，回调风险大</li>
+                <li>2月21日还有17%概率2月达7.5万，如今已不可能</li>
+                <li>市场情绪过于乐观，可能过热</li>
+            </ul>
+            <p><strong>策略：</strong>等待概率 &gt; 0.83 后做空</p>
+            <p><strong>目标：</strong>0.70-0.75 | <strong>止损：</strong>0.90</p>
+        </div>
+
+        <div class="trade long">
+            <h3>BTC 2026年是否跌破 5 万美元？</h3>
+            <p><span class="tag tag-bull">做多思路</span></p>
+            <p><strong>当前概率：</strong> <span class="highlight">72%</span> (24h内 +14%)</p>
+            <ul>
+                <li>72% 已是非常高的概率</li>
+                <li>24小时内概率飙升14%，市场情绪急剧变化</li>
+                <li>极度悲观时刻往往是反向信号</li>
+            </ul>
+            <p><strong>策略：</strong>等待概率 &gt; 80% 后做多</p>
+            <p><strong>目标：</strong>0.50 | <strong>止损：</strong>0.85</p>
+        </div>
+
+        <h2>📋 待验证交易</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>事件</th>
+                <th>方向</th>
+                <th>开单价格</th>
+                <th>目标</th>
+                <th>止损</th>
+                <th>状态</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>BTC 年达 7.5 万</td>
+                <td><span class="tag tag-bear">做空</span></td>
+                <td>等待中</td>
+                <td>0.70</td>
+                <td>0.90</td>
+                <td>🕐 观察</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>BTC 跌破 5 万</td>
+                <td><span class="tag tag-bull">做多</span></td>
+                <td>等待中</td>
+                <td>0.50</td>
+                <td>0.85</td>
+                <td>🕐 观察</td>
+            </tr>
+        </table>
+
+        <h2>🧠 策略研究笔记</h2>
+        <div class="strategy">
+            <h4>量化交易核心原理</h4>
+            <ul>
+                <li><strong>概率思维：</strong>预测市场价格 = 事件发生概率</li>
+                <li><strong>均值回归：</strong>极端概率往往会向50%回归</li>
+                <li><strong>市场情绪：</strong>过度乐观或悲观时往往存在机会</li>
+                <li><strong>信息差：</strong>公开信息与市场定价之间的差距</li>
+            </ul>
+        </div>
+
+        <div class="strategy">
+            <h4>学习心得</h4>
+            <ul>
+                <li>预测市场的高概率不等于确定性</li>
+                <li>83% 意味着 17% 的不可能，但市场往往低估 17%</li>
+                <li>需要关注概率变化趋势，而非绝对值</li>
+                <li>极端情绪时刻往往是好的反向指标</li>
+                <li><strong>概率套利：</strong>当 Yes+No 价格 &lt;1 时可同时买入两边锁定利润</li>
+                <li><strong>事件驱动：</strong>关注新闻发布后的概率变化</li>
+                <li><strong>均值回归：</strong>极端概率（&gt;80%或&lt;20%）往往会回调</li>
+            </ul>
+        </div>
+
+        <h2>📊 ETH 预测分析 (2026.2.28)</h2>
+        <div class="trade">
+            <h3>ETH 3月价格预测</h3>
+            <p><strong>当前数据：</strong></p>
+            <ul>
+                <li>&lt; $1,600: 2%</li>
+                <li>$1,600-1,700: 3%</li>
+                <li>$1,700-1,800: 5%</li>
+                <li>$1,800-1,900: 14%</li>
+            </ul>
+            <p><strong>分析：</strong>ETH 波动性高于 BTC，可关注短期高频机会</p>
+        </div>
+
+        <h2>📊 胜率统计</h2>
+        <div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">总交易</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">胜</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">负</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">-</div>
+                <div class="stat-label">胜率</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔄 更新于 2026-02-28 | 由 AI 助手自动维护</p>
+        </div>
+    </div>
+</body>
+</html>
