@@ -40,99 +40,61 @@
             border: 1px solid #00d9ff;
         }
         .goal p { color: #00d9ff; font-size: 1.1em; }
-        .strategy {
-            background: #252540;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-        .trade {
-            background: #1e1e30;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #ffd93d;
-        }
+        .strategy { background: #252540; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .trade { background: #1e1e30; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffd93d; }
         .trade.long { border-left-color: #6bcb77; }
         .trade.short { border-left-color: #ff6b6b; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            background: #1a1a2e;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #333;
-        }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #1a1a2e; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
         th { background: #252540; color: #00d9ff; }
         tr:hover { background: #252540; }
-        .tag {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            margin: 2px;
-        }
+        .tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.85em; margin: 2px; }
         .tag-bull { background: rgba(107, 203, 119, 0.2); color: #6bcb77; }
         .tag-bear { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
-        .tag-neutral { background: rgba(255, 217, 61, 0.2); color: #ffd93d; }
         .highlight { color: #00d9ff; font-weight: bold; }
-        .stat-card {
-            display: inline-block;
-            background: #252540;
-            padding: 15px 25px;
-            border-radius: 8px;
-            margin: 5px;
-            text-align: center;
-        }
+        .stat-card { display: inline-block; background: #252540; padding: 15px 25px; border-radius: 8px; margin: 5px; text-align: center; }
         .stat-value { font-size: 1.5em; color: #00d9ff; font-weight: bold; }
         .stat-label { font-size: 0.85em; color: #888; }
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-            font-size: 0.9em;
-        }
         
-        /* 折叠展开样式 */
-        .archive-toggle {
+        /* 归档样式 */
+        .archive-day {
+            background: #1a1a2e;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .archive-header {
             background: #252540;
             padding: 15px 20px;
-            border-radius: 8px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 20px 0;
             transition: background 0.3s;
         }
-        .archive-toggle:hover { background: #2d2d4a; }
-        .archive-toggle::after {
+        .archive-header:hover { background: #2d2d4a; }
+        .archive-header::after {
             content: '▼';
             font-size: 0.8em;
             transition: transform 0.3s;
         }
-        .archive-toggle.active::after { transform: rotate(180deg); }
+        .archive-day.active .archive-header::after { transform: rotate(180deg); }
+        .archive-date { font-weight: bold; color: #00d9ff; }
+        .archive-count { color: #888; font-size: 0.9em; }
         
-        .archive-section {
+        .archive-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-out;
+            transition: max-height 0.4s ease-out;
         }
-        .archive-section.expanded { max-height: 2000px; }
+        .archive-day.active .archive-content { max-height: 1000px; }
         
         .archive-item {
-            background: #1a1a2e;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            border-left: 3px solid #666;
+            padding: 15px 20px;
+            border-top: 1px solid #333;
         }
-        .archive-date { color: #888; font-size: 0.9em; }
+        .archive-item:first-child { border-top: none; }
+        .archive-time { color: #888; font-size: 0.85em; margin-bottom: 8px; }
         
         .latest-badge {
             background: #00d9ff;
@@ -142,6 +104,8 @@
             font-size: 0.7em;
             margin-left: 10px;
         }
+        .footer { text-align: center; padding: 30px; color: #666; font-size: 0.9em; }
+        .footer a { color: #00d9ff; }
     </style>
 </head>
 <body>
@@ -161,11 +125,9 @@
             <p><strong>当前概率：</strong> <span class="highlight">83%</span> (过高)</p>
             <ul>
                 <li>83% 处于高位，回调风险大</li>
-                <li>2月21日还有17%概率2月达7.5万，如今已不可能</li>
                 <li>市场情绪过于乐观，可能过热</li>
             </ul>
-            <p><strong>策略：</strong>等待概率 &gt; 0.83 后做空</p>
-            <p><strong>目标：</strong>0.70-0.75 | <strong>止损：</strong>0.90</p>
+            <p><strong>策略：</strong>等待概率 > 0.83 后做空，目标 0.70，止损 0.90</p>
         </div>
 
         <div class="trade long">
@@ -173,12 +135,9 @@
             <p><span class="tag tag-bull">做多思路</span></p>
             <p><strong>当前概率：</strong> <span class="highlight">72%</span> (24h内 +14%)</p>
             <ul>
-                <li>72% 已是非常高的概率</li>
-                <li>24小时内概率飙升14%，市场情绪急剧变化</li>
                 <li>极度悲观时刻往往是反向信号</li>
             </ul>
-            <p><strong>策略：</strong>等待概率 &gt; 80% 后做多</p>
-            <p><strong>目标：</strong>0.50 | <strong>止损：</strong>0.85</p>
+            <p><strong>策略：</strong>等待概率 > 80% 后做多，目标 0.50，止损 0.85</p>
         </div>
 
         <div class="trade">
@@ -195,33 +154,9 @@
 
         <h2>📋 待验证交易</h2>
         <table>
-            <tr>
-                <th>#</th>
-                <th>事件</th>
-                <th>方向</th>
-                <th>开单价格</th>
-                <th>目标</th>
-                <th>止损</th>
-                <th>状态</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>BTC 年达 7.5 万</td>
-                <td><span class="tag tag-bear">做空</span></td>
-                <td>等待中</td>
-                <td>0.70</td>
-                <td>0.90</td>
-                <td>🕐 观察</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>BTC 跌破 5 万</td>
-                <td><span class="tag tag-bull">做多</span></td>
-                <td>等待中</td>
-                <td>0.50</td>
-                <td>0.85</td>
-                <td>🕐 观察</td>
-            </tr>
+            <tr><th>#</th><th>事件</th><th>方向</th><th>开单价格</th><th>目标</th><th>止损</th><th>状态</th></tr>
+            <tr><td>1</td><td>BTC 年达 7.5 万</td><td><span class="tag tag-bear">做空</span></td><td>等待中</td><td>0.70</td><td>0.90</td><td>🕐 观察</td></tr>
+            <tr><td>2</td><td>BTC 跌破 5 万</td><td><span class="tag tag-bull">做多</span></td><td>等待中</td><td>0.50</td><td>0.85</td><td>🕐 观察</td></tr>
         </table>
 
         <h2>🧠 策略研究笔记</h2>
@@ -231,73 +166,49 @@
                 <li><strong>概率思维：</strong>预测市场价格 = 事件发生概率</li>
                 <li><strong>均值回归：</strong>极端概率往往会向50%回归</li>
                 <li><strong>市场情绪：</strong>过度乐观或悲观时往往存在机会</li>
-                <li><strong>信息差：</strong>公开信息与市场定价之间的差距</li>
-            </ul>
-        </div>
-
-        <div class="strategy">
-            <h4>学习心得</h4>
-            <ul>
-                <li>预测市场的高概率不等于确定性</li>
-                <li>83% 意味着 17% 的不可能，但市场往往低估 17%</li>
-                <li>需要关注概率变化趋势，而非绝对值</li>
-                <li>极端情绪时刻往往是好的反向指标</li>
                 <li><strong>概率套利：</strong>当 Yes+No 价格 &lt;1 时可同时买入两边锁定利润</li>
                 <li><strong>事件驱动：</strong>关注新闻发布后的概率变化</li>
-                <li><strong>均值回归：</strong>极端概率（&gt;80%或&lt;20%）往往会回调</li>
             </ul>
         </div>
 
         <h2>📊 胜率统计</h2>
         <div>
-            <div class="stat-card">
-                <div class="stat-value">0</div>
-                <div class="stat-label">总交易</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">0</div>
-                <div class="stat-label">胜</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">0</div>
-                <div class="stat-label">负</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">-</div>
-                <div class="stat-label">胜率</div>
-            </div>
+            <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">总交易</div></div>
+            <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">胜</div></div>
+            <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">负</div></div>
+            <div class="stat-card"><div class="stat-value">-</div><div class="stat-label">胜率</div></div>
         </div>
 
-        <!-- 历史归档 -->
-        <div class="archive-toggle" onclick="toggleArchive()">
-            <span>📁 查看历史分析归档</span>
-        </div>
+        <h2>📁 历史分析归档</h2>
         
-        <div class="archive-section" id="archiveSection">
-            <div class="archive-item">
-                <div class="archive-date">2026年2月28日 18:10</div>
-                <p><strong>事件：</strong>BTC 跌破 5 万美元</p>
-                <p><strong>判断：</strong>72%概率处于高位，等待极端情况做多</p>
+        <div class="archive-day" onclick="toggleDay(this)">
+            <div class="archive-header">
+                <span class="archive-date">2026年2月28日</span>
+                <span class="archive-count">2 条记录</span>
             </div>
-            <div class="archive-item">
-                <div class="archive-date">2026年2月28日 18:01</div>
-                <p><strong>事件：</strong>BTC 年内达 7.5 万美元</p>
-                <p><strong>判断：</strong>83%概率过高，等待做空机会</p>
+            <div class="archive-content">
+                <div class="archive-item">
+                    <div class="archive-time">18:10</div>
+                    <p><strong>事件：</strong>BTC 跌破 5 万美元</p>
+                    <p><strong>判断：</strong>72%概率处于高位，等待极端情况做多</p>
+                </div>
+                <div class="archive-item">
+                    <div class="archive-time">18:01</div>
+                    <p><strong>事件：</strong>BTC 年内达 7.5 万美元</p>
+                    <p><strong>判断：</strong>83%概率过高，等待做空机会</p>
+                </div>
             </div>
         </div>
 
         <div class="footer">
             <p>🔄 更新于 2026-02-28 18:01 | 由 AI 助手自动维护</p>
-            <p>🌐 <a href="https://github.com/chopin1990s/polymarket-trading" style="color: #00d9ff;">GitHub 仓库</a></p>
+            <p>🌐 <a href="https://github.com/chopin1990s/polymarket-trading">GitHub 仓库</a></p>
         </div>
     </div>
 
     <script>
-        function toggleArchive() {
-            const section = document.getElementById('archiveSection');
-            const toggle = document.querySelector('.archive-toggle');
-            section.classList.toggle('expanded');
-            toggle.classList.toggle('active');
+        function toggleDay(el) {
+            el.classList.toggle('active');
         }
     </script>
 </body>
